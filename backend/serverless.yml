@@ -1,6 +1,6 @@
 # TODO: Change the name of the org 
-org: thanhnt
-app: serverless-todo-app-thanhnt
+org: ntthanh99
+app: serverless
 service: serverless-todo-app
 
 plugins:
@@ -13,8 +13,7 @@ plugins:
 provider:
   name: aws
   runtime: nodejs14.x
-  lambdaHashingVersion: '20230626'
-
+  lambdaHashingVersion: '20201221'
   stage: ${opt:stage, 'dev'}
   region: ${opt:region, 'us-east-1'}
 
