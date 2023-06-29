@@ -20,12 +20,12 @@ export async function createTodo(
 ): Promise<TodoItem> {
   logger.info('Creating a todo item')
   const todoId = uuid.v4()
-  const s3AttachmentUrl = attachmentUtils.getAttachmentUrl(todoId)
+  // const s3AttachmentUrl = attachmentUtils.getAttachmentUrl(todoId)
   const newTodo: TodoItem = {
     userId,
     todoId,
     createdAt: new Date().toISOString(),
-    attachmentUrl: s3AttachmentUrl,
+    //attachmentUrl: s3AttachmentUrl,
     done: false,
     ...createTodoRequest
   }

@@ -6,13 +6,13 @@ import { TodoItem } from '../models/TodoItem'
 import { TodoUpdate } from '../models/TodoUpdate'
 
 const XAWS = AWSXRay.captureAWS(AWS)
-
 const logger = createLogger('TodosAccess')
 
 export class TodosAccess {
   constructor(
     private readonly docClient: DocumentClient = new XAWS.DynamoDB.DocumentClient(),
     private readonly todosTable = process.env.TODOS_TABLE,
+    private readonly bucketName = process.env.ATTACHMENT_S3_BUCKET
   ) {}
 
   async getTodos(userId: string): Promise<TodoItem[]> {
@@ -68,7 +68,7 @@ export class TodosAccess {
     todoUpdate: TodoUpdate
   ): Promise<TodoUpdate> {
     logger.info('Updating a todo item')
-
+    logger.info(todoUpdate)
     await this.docClient
       .update({
         TableName: this.todosTable,
@@ -107,7 +107,6 @@ export class TodosAccess {
   async updateTodoAttachmentUrl(
     todoId: string,
     userId: string,
-    attachmentUrl: string
   ): Promise<void> {
     await this.docClient
       .update({
@@ -118,7 +117,7 @@ export class TodosAccess {
         },
         UpdateExpression: 'set attachmentUrl = :attachmentUrl',
         ExpressionAttributeValues: {
-          ':attachmentUrl': attachmentUrl
+          ":attachmentUrl": `https://${this.bucketName}.s3.amazonaws.com/${todoId}`
         }
       })
       .promise()
