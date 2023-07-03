@@ -14,6 +14,11 @@ export async function getTodosForUser(userId: string): Promise<TodoItem[]> {
   return todosAccess.getTodos(userId)
 }
 
+export async function getTodo(userId: string, todoId: string): Promise<TodoItem> {
+  const item = await todosAccess.getTodoItem(todoId, userId)
+  return item
+}
+
 export async function createTodo(
   createTodoRequest: CreateTodoRequest,
   userId: string
